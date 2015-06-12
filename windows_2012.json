@@ -35,7 +35,7 @@
       "iso_url": "http://download.microsoft.com/download/6/D/A/6DAB58BA-F939-451D-9101-7DE07DC09C03/9200.16384.WIN8_RTM.120725-1247_X64FRE_SERVER_EVAL_EN-US-HRM_SSS_X64FREE_EN-US_DV5.ISO",
       "iso_checksum_type": "md5",
       "iso_checksum": "8503997171f731d9bd1cb0b0edc31f3d",
-      "headless": true,
+      "headless": false,
       "boot_wait": "2m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
@@ -64,6 +64,31 @@
           "2"
         ]
       ]
+    },
+    {
+      "type": "qemu",
+      "iso_url": "http://download.microsoft.com/download/6/D/A/6DAB58BA-F939-451D-9101-7DE07DC09C03/9200.16384.WIN8_RTM.120725-1247_X64FRE_SERVER_EVAL_EN-US-HRM_SSS_X64FREE_EN-US_DV5.ISO",
+      "iso_checksum_type": "md5",
+      "iso_checksum": "8503997171f731d9bd1cb0b0edc31f3d",
+      "headless": true,
+      "boot_wait": "2m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "2h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "qemu_binary": "qemu-kvm",
+      "qemuargs": [
+        [ "-m", "2048m" ],
+        [ "-fdb", "./virtio.vfd" ]
+      ],
+      "disk_size": 61440,
+      "floppy_files": [
+        "./answer_files/2012/Autounattend.xml",
+        "./scripts/microsoft-updates.bat",
+        "./scripts/win-updates.ps1",
+        "./scripts/openssh.ps1",
+        "./scripts/oracle-cert.cer"
+      ]
     }
   ],
   "provisioners": [
@@ -86,12 +111,5 @@
       ]
     }
   ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "keep_input_artifact": false,
-      "output": "windows_2012_{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows_2012.template"
-    }
-  ]
+  "post-processors": []
 }
